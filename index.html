@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stylish Note-Taking App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        #textInput {
+            width: 70%;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        #output {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: #f9f9f9;
+        }
+
+        #notes {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: left;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <h1>Stylish Note-Taking App</h1>
+    
+    <input type="text" id="textInput" onkeypress="handleKeyPress(event)">
+    
+    <div id="output"></div>
+    
+    <div id="notes"></div>
+
+    <script>
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                saveAndDisplayText();
+            }
+        }
+
+        function saveAndDisplayText() {
+            var inputText = document.getElementById('textInput').value;
+            var outputDiv = document.getElementById('output');
+            var notesDiv = document.getElementById('notes');
+            
+            // Save note with timestamp to localStorage
+            var timestamp = new Date().toLocaleString();
+            var note = '<p>' + timestamp + ': ' + inputText + '</p>';
+            
+            if (localStorage.getItem('notes')) {
+                var savedNotes = localStorage.getItem('notes');
+                localStorage.setItem('notes', savedNotes + note);
+            } else {
+                localStorage.setItem('notes', note);
+            }
+
+            // Display the latest note
+            outputDiv.innerHTML = '<p>' + inputText + '</p>';
+
+            // Display all saved notes
+            notesDiv.innerHTML = '<h2>Notes</h2>' + localStorage.getItem('notes');
+            
+            // Clear the input field
+            document.getElementById('textInput').value = '';
+        }
+
+        // Display existing notes on page load
+        document.getElementById('notes').innerHTML = '<h2>Notes</h2>' + localStorage.getItem('notes');
+    </script>
+</body>
+</html>
